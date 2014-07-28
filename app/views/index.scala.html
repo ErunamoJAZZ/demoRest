@@ -1,0 +1,73 @@
+@(title: String)
+<html>
+
+<head>
+</head>
+
+<body>
+	<h1>Paso 1</h1>
+<p>Inicializa la base de datos con <code>/db/create</code> , esto creará las tablas necesarias en una pequeña base de datos en 
+Sqlite (puedes eliminar las tablas con <code>/db/drop</code>).</p>
+
+<h1>Paso 2</h1>
+<p>el API es como sigue:</p>
+<ul>
+<li><h3>PUT /user</h3>
+<p>Crea un nuevo usuario. Recibe un json como el siguiente (Nota, no importa el numero de id, y el username debe ser único):</p>
+<code>
+{<br/>
+id:0,<br/>
+username: "pepz",<br/>
+nombre: "Pepipto Perez"<br/>
+}
+</code>
+<p>El sistema generará automaticamente al usuario y retornará el <code>user_id</code>.</p>
+</li>
+<li><h3>GET /user/$id<\d></h3>
+<p>Retorna los datos de un usuario, buscandolo por su id</p>
+</li>
+<li><h3>GET /user/:un</h3>
+<p>Retorna los datos de un usuario, buscandolo por su username</p>
+</li>
+<li><h3>DELETE /user/$id<\d></h3>
+<p>Elimina un usuario, haciendolo por su id.</p>
+</li>
+<li><h3>PUT /pet</h3>
+<p>Crea una nueva mascota, el json que se envía debe ser como el siguiente 
+(donde dueno es la clave foranea al dueño de la mascota, y 'longitud, latitud' 
+son las coordenadas proyectadas en WGS84-4326):</p>
+<code>
+{<br/>
+id:0,<br/>
+dueno: 1,<br/>
+nombre:"Rex",<br/>
+edad: 2,<br/>
+longitud: 6.27018,<br/>
+latitud: -75.598095<br/>
+}
+</code>
+<p>Retorna el <code>pet_id</code> de la mascota creada.</p>
+</li>
+<li><h3>POST /pet/:id</h3>
+<p>Actualiza la posición de una mascota. El POST debe enviar un json así:</p>
+<code>
+{<br/>
+lon: 6.27018,<br/>
+lar: -75.598095<br/>
+}
+</code>
+
+</li>
+<li><h3>GET /pet/:id</h3>
+<p>Retorna los datos de una mascota, buscandola por su id</p>
+</li>
+<li><h3>DELETE /pet/:id</h3>
+<p>Elimina una mascota, haciendolo por su id</p>
+</li>
+</ul>
+
+
+</body>
+
+</html>
+

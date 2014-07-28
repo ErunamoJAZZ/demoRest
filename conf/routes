@@ -1,0 +1,25 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET      /               controllers.Application.index
+
+#Sección del Usuario
+PUT      /user           controllers.Application.newUser
+GET      /user/$id<\d>   controllers.Application.getUser_id(id: Int)
+GET      /user/:un       controllers.Application.getUser_username(un)
+DELETE   /user/$id<\d>   controllers.Application.deleteUser(id: Int)
+
+#Sección de la mascota
+PUT      /pet            controllers.Application.newPet
+POST     /pet/:id        controllers.Application.updatePetLocation(id: Int)
+GET      /pet/:id        controllers.Application.getPet_id(id: Int)
+DELETE   /pet/:id        controllers.Application.deletePet(id: Int)
+
+#Creación y drop de la DB
+GET      /db/:action     controllers.Application.dbActions(action)
+
+# Map static resources from the /public folder to the /assets URL path
+GET      /assets/*file   controllers.Assets.at(path="/public", file)
+GET      /api/*any       controllers.Application.inaccesible(any)

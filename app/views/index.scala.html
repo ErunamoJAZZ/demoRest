@@ -1,89 +1,118 @@
 @(title: String)
+<!DOCTYPE HTML>
 <html>
+	<head>
+		<title>(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧ @title</title>
+		
+		<style type="text/css">
+		body {
+			background: url("/assets/images/bg.png") no-repeat center fixed;
+			-webkit-background-size: cover;
+    	-moz-background-size: cover;
+    	-o-background-size: cover;
+    	background-size: cover;
+			font-family: Verdana, Arial;
+		}
+		
+		</style>
+	</head>
 
-<head>
-</head>
-
-<body>
-	<h1>Paso 1</h1>
-<p>Inicializa la base de datos con <code>/db/create</code> , esto creará las tablas necesarias en una pequeña base de datos en 
-Sqlite (puedes eliminar las tablas con <code>/db/drop</code>).</p>
-
-<h1>Paso 2</h1>
-<p>el API es como sigue:</p>
-<ul>
-<li><h3>PUT /user</h3>
-<p>Crea un nuevo usuario. Recibe un json como el siguiente (Nota: no importa el número de id. El username debe ser único):</p>
-<code>
-{<br/>
-id:0,<br/>
-username: "pepz",<br/>
-nombre: "Pepipto Perez",<br/>
-android_id: "codigoLaaaaaaaargoQueIdentificaUnDispositivoAndroid9876543210"<br/>
-}
-</code>
-<p>El sistema generará automaticamente al usuario y retornará el <code>user_id</code>.</p>
-</li>
-<li><h3>GET /user/$id<\d></h3>
-<p>Retorna los datos de un usuario, buscandolo por su id</p>
-</li>
-<li><h3>GET /user/:un</h3>
-<p>Retorna los datos de un usuario, buscandolo por su username</p>
-</li>
-<li><h3>DELETE /user/$id<\d></h3>
-<p>Elimina un usuario, haciendolo por su id.</p>
-</li>
-</li>
-<li><h3>POST /user/gcm/$id<\d></h3>
-<p>Actualiza el código GCM del despositivo de un usuario, <code>id</code> es el
-id del usuario. Además se debe enviar un json como el que sigue.</p>
-<code>
-{<br/>
-android_id: "codigoLaaaaaaaargoQueIdentificaUnDispositivoAndroid9876543210"<br/>
-}
-</code>
-</li>
-
-<li><h3>PUT /pet</h3>
-<p>Crea una nueva mascota, el json que se envía debe ser como el siguiente 
-(donde <code>dueno</code> es la clave foranea al dueño de la mascota, y 
-'<code>longitud</code>, <code>latitud</code>' 
-son las coordenadas proyectadas en WGS84-4326):</p>
-<code>
-{<br/>
-id:0,<br/>
-dueno: 1,<br/>
-nombre:"Rex",<br/>
-edad: 2,<br/>
-longitud: 6.27018,<br/>
-latitud: -75.598095<br/>
-}
-</code>
-<p>Retorna el <code>pet_id</code> de la mascota creada.</p>
-</li>
-<li><h3>POST /pet/:id</h3>
-<p>Actualiza la posición de una mascota. El POST debe enviar un json así:</p>
-<code>
-{<br/>
-lon: 6.27018,<br/>
-lar: -75.598095<br/>
-}
-</code>
-<p>Al hacer la actualización, envía una <i>notificación push</i> al dueño de la mascota.</p>
-</li>
-<li><h3>GET /pet/:id</h3>
-<p>Retorna los datos de una mascota, buscandola por su id</p>
-</li>
-<li><h3>DELETE /pet/:id</h3>
-<p>Elimina una mascota, haciendolo por su id</p>
-</li>
-<li><h3>GET /gcm/:gcm_id</h3>
-<p>Envía una notificación push de prueba al dispositivo con el <code>gcm_id</code> que se le ponga.</p>
-</li>
-</ul>
-
-
-</body>
-
+	<body>
+		
+		<!-- Reactive manifesto -->
+		<a href="http://www.reactivemanifesto.org/"> 
+		<img style="border: 0; position: fixed; right: 0; top:0; z-index: 9000" src="/assets/images/we-are-reactive-white-right.png"> 
+		</a> 
+		
+		
+		<article style="text-align: center;">
+			<h1 style="font-size: 40pt; font-weight: 900;">Servidor REST</h1>
+			<p>Servidor REST con propósitos educativos y de enseñanza. </p>
+			<p>Escrito por 
+			<a href="https://twitter.com/EruJazz">@@EruJazz</a>, financiado por 
+			<a href="https://twitter.com/jjcardonao">@@jjcardonao</a>.</p>
+		</article>
+		
+		
+		<h2>Paso 1</h2>
+			<p>Inicializa la base de datos con <code>/db/create</code> , esto creará las 
+			tablas necesarias en una pequeña base de datos en 
+			Sqlite (puedes eliminar las tablas con <code>/db/drop</code>).</p>
+		
+		<h2>Paso 2</h2>
+			<p>el API es como sigue:</p>
+			<ul>
+			<li><h3>PUT /user</h3>
+					<p>Crea un nuevo usuario. Recibe un json como el siguiente (Nota: al crear el 
+					usuario no importa el número de id. El username debe ser único):</p>
+						<code>
+						{<br/>
+						id:0,<br/>
+						username: "pepz",<br/>
+						nombre: "Pepipto Perez",<br/>
+						android_id: "codigoLaaaaaaaargoQueIdentificaUnDispositivoAndroid9876543210"<br/>
+						}
+						</code>
+					<p>El sistema generará automaticamente al usuario y retornará el <code>user_id</code>.</p>
+					</li>
+			<li><h3>GET /user/:id</h3>
+					<p>Retorna los datos de un usuario, buscandolo por su id</p>
+					</li>
+			<li><h3>GET /user/:un</h3>
+					<p>Retorna los datos de un usuario, buscandolo por su username</p>
+					</li>
+			<li><h3>DELETE /user/:id</h3>
+					<p>Elimina un usuario, haciendolo por su id.</p>
+					</li>
+					</li>
+			<li><h3>POST /user/gcm/:id</h3>
+					<p>Actualiza el código GCM del despositivo de un usuario, <code>id</code> es el
+					id del usuario. Además se debe enviar un json como el que sigue.</p>
+						<code>
+						{<br/>
+						android_id: "codigoLaaaaaaaargoQueIdentificaUnDispositivoAndroid9876543210"<br/>
+						}
+						</code>
+					</li>
+			
+			<li><h3>PUT /pet</h3>
+					<p>Crea una nueva mascota, el json que se envía debe ser como el siguiente 
+					(donde <code>dueno</code> es la clave foranea al dueño de la mascota, y 
+					'<code>longitud</code>, <code>latitud</code>' 
+					son las coordenadas proyectadas en WGS84-4326):</p>
+						<code>
+						{<br/>
+						id:0,<br/>
+						dueno: 1,<br/>
+						nombre:"Rex",<br/>
+						edad: 2,<br/>
+						longitud: 6.27018,<br/>
+						latitud: -75.598095<br/>
+						}
+						</code>
+					<p>Retorna el <code>pet_id</code> de la mascota creada.</p>
+					</li>
+			<li><h3>POST /pet/:id</h3>
+					<p>Actualiza la posición de una mascota. El POST debe enviar un json así:</p>
+						<code>
+						{<br/>
+						lon: 6.27018,<br/>
+						lat: -75.598095<br/>
+						}
+						</code>
+					<p>Al hacer la actualización, envía una <i>notificación push</i> al dueño de la mascota.</p>
+					</li>
+			<li><h3>GET /pet/:id</h3>
+					<p>Retorna los datos de una mascota, buscandola por su id</p>
+					</li>
+			<li><h3>DELETE /pet/:id</h3>
+					<p>Elimina una mascota, haciendolo por su id</p>
+					</li>
+			<li><h3>GET /gcm/:gcm_id</h3>
+					<p>Envía una notificación push de prueba al dispositivo con el <code>gcm_id</code> que se le ponga.</p>
+					</li>
+					</ul>
+			
+		<footer style="float: right;"><img alt="WTFPL" src="/assets/images/wtfpl-badge-2.png"> </footer>
+	</body>
 </html>
-

@@ -9,6 +9,7 @@ import play.api.Play.current
 import play.api.libs.json._
 import scala.util._
 import play.api.libs.functional.syntax._
+import org.joda.time.DateTime
 
 object Application extends Controller {
 
@@ -21,7 +22,8 @@ object Application extends Controller {
   implicit val json_pets = Json.format[Pet]
 
   def index = Action {
-    Ok(views.html.index(""))
+    val t = new DateTime()
+    Ok(views.html.index(t.toString()))
   }
   
   

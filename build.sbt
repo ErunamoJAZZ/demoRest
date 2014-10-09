@@ -14,6 +14,6 @@ libraryDependencies ++= Seq(
   cache,
   ws,
   "org.xerial" % "sqlite-jdbc" % "3.7.15-M1",
-  "com.typesafe.slick" %% "slick" % "2.0.2",
+  "com.typesafe.slick" %% "slick" % "2.0.3",
   "com.typesafe.play" %% "play-slick" % "0.7.0"
 )

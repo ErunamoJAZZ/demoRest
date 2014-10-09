@@ -13,12 +13,13 @@ Sqlite (puedes eliminar las tablas con <code>/db/drop</code>).</p>
 <p>el API es como sigue:</p>
 <ul>
 <li><h3>PUT /user</h3>
-<p>Crea un nuevo usuario. Recibe un json como el siguiente (Nota, no importa el numero de id, y el username debe ser único):</p>
+<p>Crea un nuevo usuario. Recibe un json como el siguiente (Nota: no importa el número de id. El username debe ser único):</p>
 <code>
 {<br/>
 id:0,<br/>
 username: "pepz",<br/>
-nombre: "Pepipto Perez"<br/>
+nombre: "Pepipto Perez",<br/>
+android_id: "codigoLaaaaaaaargoQueIdentificaUnDispositivoAndroid9876543210"<br/>
 }
 </code>
 <p>El sistema generará automaticamente al usuario y retornará el <code>user_id</code>.</p>
@@ -32,9 +33,21 @@ nombre: "Pepipto Perez"<br/>
 <li><h3>DELETE /user/$id<\d></h3>
 <p>Elimina un usuario, haciendolo por su id.</p>
 </li>
+</li>
+<li><h3>POST /user/gcm/$id<\d></h3>
+<p>Actualiza el código GCM del despositivo de un usuario, <code>id</code> es el
+id del usuario. Además se debe enviar un json como el que sigue.</p>
+<code>
+{<br/>
+android_id: "codigoLaaaaaaaargoQueIdentificaUnDispositivoAndroid9876543210"<br/>
+}
+</code>
+</li>
+
 <li><h3>PUT /pet</h3>
 <p>Crea una nueva mascota, el json que se envía debe ser como el siguiente 
-(donde dueno es la clave foranea al dueño de la mascota, y 'longitud, latitud' 
+(donde <code>dueno</code> es la clave foranea al dueño de la mascota, y 
+'<code>longitud</code>, <code>latitud</code>' 
 son las coordenadas proyectadas en WGS84-4326):</p>
 <code>
 {<br/>
@@ -56,13 +69,16 @@ lon: 6.27018,<br/>
 lar: -75.598095<br/>
 }
 </code>
-
+<p>Al hacer la actualización, envía una <i>notificación push</i> al dueño de la mascota.</p>
 </li>
 <li><h3>GET /pet/:id</h3>
 <p>Retorna los datos de una mascota, buscandola por su id</p>
 </li>
 <li><h3>DELETE /pet/:id</h3>
 <p>Elimina una mascota, haciendolo por su id</p>
+</li>
+<li><h3>GET /gcm/:gcm_id</h3>
+<p>Envía una notificación push de prueba al dispositivo con el <code>gcm_id</code> que se le ponga.</p>
 </li>
 </ul>
 

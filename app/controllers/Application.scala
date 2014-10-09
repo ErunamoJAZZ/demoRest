@@ -23,6 +23,8 @@ object Application extends Controller {
   def index = Action {
     Ok(views.html.index(""))
   }
+  
+  
 
   /**
    * ***************************
@@ -99,6 +101,37 @@ object Application extends Controller {
       }
     }
   }
+
+  def updateGCM(user_id: Int) = DBAction(parse.tolerantJson) { implicit req =>
+
+    val passReads: Reads[String] =
+      (JsPath \ "android_id").read[String]
+
+    passReads.reads(req.body).fold(
+      valid = (reg_id => {
+        try {
+
+          //Se hace la consulta para obtener el usuario correcto.
+          val q = for {
+            u <- Users
+            if u.id === user_id
+          } yield u.android_id
+
+          //se realiza la actualización del campo
+          q.update(reg_id)
+
+          //si nada falla, responde apropiadamente
+          play.Logger.info("Actualizado GCM del usuario " + user_id)
+          Accepted(Json.obj("status" -> ":)"))
+        } catch {
+          case e: Exception => NotAcceptable(Json.obj("err" -> "Android GCM no pudo actualizarce",
+            "msg" -> e.getMessage()))
+        }
+
+      }),
+      invalid = (e => BadRequest(Json.obj("err" -> "Invalid Json"))))
+
+  }
   /**
    * ************************
    * * ACIONES PARA MASCOTA **
@@ -166,14 +199,34 @@ object Application extends Controller {
     customReads.reads(req.body).fold(valid = (location => {
 
       val q = for {
-        u <- Pets
-        if u.id === pet_id
-      } yield (u.longitud, u.latitud)
+        pet <- Pets
+        if pet.id === pet_id
+      } yield (pet.longitud, pet.latitud)
 
       val updating = Try(q.update(location))
       //Según el resultado de la inserción, responde.
       updating match {
-        case Success(id) => Ok(Json.obj("pet_id" -> id))
+        case Success(id) => {
+          //Cuando es afirmativo, se intenta enviar una notificación push al
+          //dueño, en caso de que tenga un android_id registrado
+          val p = for {
+            pet <- Pets
+            u <- Users
+            if u.id === pet_id &&
+              u.id === pet.dueno
+          } yield u.android_id
+
+          val a = p.list
+
+          if (a != Nil && a.head.length() > 10) {
+            push.sendGCMto(a, Json.obj("title" -> "Tu mascota ha cambiado de localización.",
+              "type" -> 1,
+              "pet_id" -> pet_id))
+          }
+
+          //respuesta para el usuario
+          Ok(Json.obj("pet_id" -> id))
+        }
         case Failure(e) => {
           NotAcceptable(Json.obj(
             "err" -> "No se pudo insertar la mascota.",
@@ -208,12 +261,25 @@ object Application extends Controller {
       }
     }
   }
-  
+
   /*
    * El api es innaccesible
    */
   def inaccesible(any_path: String) = Action {
-    ServiceUnavailable(Json.obj("err" -> ("API '"+any_path+"' no existe,")))
+    ServiceUnavailable(Json.obj("err" -> ("API '" + any_path + "' no existe.")))
   }
 
+  /*
+   * Función que permite probar rápidamente una una notificación push
+   */
+  def fastPush(gcm_id: String) = Action { req =>
+    val json = Json.obj(
+      "title" -> "Prueba de Notificación Push",
+      "type" -> 1,
+      "pet_id" -> 1)
+
+    push.sendGCMto(scala.List(gcm_id), json)
+
+    Ok(json)
+  }
 }
